@@ -23,7 +23,7 @@ stdenv.mkDerivation rec {
     ln -s romben3.png background.png
 
     sed -i 's%feh%${pkgs.feh}/bin/feh%' bg.sh
-    sed -i 's%i3lock%${pkgs.i3lock}/bin/i3lock%' bg.sh
+    sed -i 's%xsecurelock%${pkgs.xsecurelock}/bin/xsecurelock%' bg.sh
     sed -i 's%xrandr%${pkgs.xorg.xrandr}/bin/xrandr%' bg.sh
   '';
 
