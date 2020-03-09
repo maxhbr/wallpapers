@@ -38,12 +38,19 @@ getScreenHeigth() {
         cut -d 'x' -f2
 }
 
+waitForUnlock() {
+    while sleep 10; do
+        if ! pidof i3lock &> /dev/null; then
+            echo "unlock at: $(date)" | tee -a "$LOG_FILE"
+            return
+        fi
+    done
+}
+
 lockWithRandom() {
     echo "lock at: $(date)" | tee -a "$LOG_FILE"
-    export XSECURELOCK_SAVER=saver_mpv
-    export XSECURELOCK_LIST_VIDEOS_COMMAND="feh --zoom=fill -F '$(getRandomBG $(getScreenHeigth))'"
-    xsecurelock
-    echo "unlock at: $(date)" | tee -a "$LOG_FILE"
+    i3lock -t -i "$(getRandomBG $(getScreenHeigth))" -c 000000
+    waitForUnlock &
 }
 
 case $1 in
