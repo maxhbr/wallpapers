@@ -1,6 +1,6 @@
 # Copyright 2018 Maximilian Huber <oss@maximilian-huber.de>
 # SPDX-License-Identifier: MIT
-{ pkgs ? import <nixpkgs> {}, stdenv ? pkgs.stdenv }:
+{ pkgs ? import <nixpkgs> {}, stdenv ? pkgs.stdenv, lib ? pkgs.lib }:
 
 stdenv.mkDerivation rec {
   version = "1.0";
@@ -44,7 +44,7 @@ stdenv.mkDerivation rec {
     chmod -x $bin/.bg.sh
   '';
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "My background images";
     homepage = https://github.com/maxhbr/myconfig;
     license = licenses.mit;
