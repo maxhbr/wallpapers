@@ -72,43 +72,9 @@ main = let
               ) (reverse [1..maxN])
         withTexture (gradient 0 200 1) $ fill $ rectangle (V2 0 0) ( -(fromIntegral maxX)) (fromIntegral maxY)
         withTexture (uniformTexture $ PixelRGBA8 255 255 255 50) $ stroke 17 JoinRound (CapRound, CapRound) $ line (V2 0 0) (V2 0 2160)
-    img2 = renderDrawing maxX maxY (PixelRGBA8 20 20 20 255) $ let
-        maxN = 300
-        getColor n ps = let
-          lps = length ps
-          mps = maximum (map (\(V2 _ y) -> y) ps)
-          val = floor (((fromIntegral n) / (fromIntegral maxN)) * 255)
-          in uniformTexture $ PixelRGBA8 (val `div` 5) (val `div` 6) val 80
-      in do
-        withTexture (gradient 255 70 1) $ fill $ rectangle (V2 0 0) (fromIntegral maxX) (fromIntegral maxY)
-        withTransformation (mconcat [translate (mkV2 (-800) (maxY + 160)), scale 1 (-1)]) $ do
-          mapM_ (\n -> let
-                      points = let
-                        points' = get3np1Points n
-                        maxP = maximum (map (\(V2 _ y) -> y) points')
-                        in trace (show n ++ " lenght=" ++ show (length points') ++ " max=" ++ show maxP) points'
-
-                      sign = if even n
-                            then -1
-                            else 1
-                      morphedPoints = map (\(V2 i n) -> V2 (i * 100) (sqrt n * 20)) (points)
-
-                      poly = polygon morphedPoints
-                      polyl = polyline $ init morphedPoints
-                    in do
-                      withTexture (getColor n points) $
-                        fill $
-                        poly
-                      withTexture (uniformTexture $ let
-                                      val = floor (((fromIntegral n) / (fromIntegral maxN)) * 255)
-                                      in PixelRGBA8 val val val 200) $
-                        stroke 0.3 JoinRound (CapRound, CapRound) $ polyl
-
-                ) (reverse [1..maxN])
   in do
         putStrLn "run..."
-        -- writePng "3np1.png" img1
-        writePng "3np1-2.png" img2
+        writePng "3np1.png" img1
         putStrLn "...done"
 
 get3np1Points :: Int -> [Point]
