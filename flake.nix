@@ -10,6 +10,11 @@
     defaultPackage.x86_64-linux = my-wallpapers;
     nixosModule = { config, lib, pkgs, ... }: {
       config = (lib.mkIf config.services.xserver.enable {
+        nixpkgs.overlays = [
+          (_: _: {
+            my-wallpapers = my-wallpapers;
+          })
+        ];
         home-manager.sharedModules = [{
           home.packages = [ my-wallpapers ];
           services.random-background = {
